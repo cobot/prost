@@ -1,0 +1,42 @@
+<h1><%= @space.name %></h1>
+
+<div id="new">
+  <h2>Pay for a drink</h2>
+  <button id="prost">Prost</button>
+  <p>Click to have a drink.</p>
+</div>
+
+<div id="waiting" style="display:none">
+  <h2>Paying...</h2>
+</div>
+
+<div id="done" style="display:none">
+  <h2>Prost!</h2>
+  <p><a href="#" id="one_more">One more</a></p>
+</div>
+
+<% content_for :jquery do %>
+  $('#prost').live('click', function() {
+    $('#new').hide();
+    $('#waiting').show();
+    $.ajax({
+      type: 'POST',
+      url: '<%= escape_javascript space_drinks_url(@space) %>',
+      success: function() {
+        $('#waiting').hide();
+        $('#done').show();
+      },
+      error: function() {
+        $('#new').show();
+        $('#waiting').hide();
+        alert('Sorry could not pay for the drink. Please pay cash.');
+      }
+    });
+  });
+
+  $('#one_more').live('click', function(e) {
+    e.preventDefault();
+    $('#done').hide();
+    $('#new').show();
+  });
+<% end %>

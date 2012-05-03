@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Prost</title>
+  <%= stylesheet_link_tag    "application" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+  <div class="container">
+  <h1 class="logo">Prost</h1>
+
+  <div class="header">
+      <% if current_user %>
+      <nav>
+        <%= link_to 'Home', spaces_path %>
+        <%= link_to 'Sign out', session_path, method: :delete %>
+      </nav>
+    <% end %>
+  </div>
+
+  <% flash.each do |type, message| %>
+    <% if message %>
+      <p class="flash <%= type %>"><%= message %></p>
+    <% end %>
+  <% end %>
+
+  <div class="main">
+    <%= yield %>
+  </div>
+
+  <div class="footer">
+    <script>
+      $(function() {
+        <%= yield :jquery %>
+      });
+    </script>
+    <p class="left">
+      &copy; <%= Date.today.year %>
+      <%= link_to "Upstream - Agile GmbH", "http://upstre.am" %>
+    </p>
+  </div>
+</body>
+</html>

@@ -1,0 +1,9 @@
+.flash {
+  display: block;
+  padding: 10px;
+}
+
+.flash.failure {
+  background: #C00;
+  color: white;
+}
