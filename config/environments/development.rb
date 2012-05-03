@@ -34,6 +34,6 @@ Prost::Application.configure do
   config.assets.debug = true
 end
 
-Prost::Config = OpenStruct.new client_id: 'a6f76e92c2781b935897adbb70d3fca1',
-  client_secret: '0d1f42eeda708758ada447c454c022c8d8ef790464e143b10aa2d468cc337307',
-  cobot_site: 'http://www.smackaho.st:3000'
+Prost::Config = OpenStruct.new client_id: 'ed73e870f811bb24620c0d57f21b1749',
+  client_secret: '131fe76c56a0d2f2074fcb31e8e2fb7e8c75bd5ba9caf37251927c73fb3e9232',
+  cobot_site: 'https://www.cobot.me'
