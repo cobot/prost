@@ -37,3 +37,5 @@ end
 Prost::Config = OpenStruct.new client_id: 'ed73e870f811bb24620c0d57f21b1749',
   client_secret: '131fe76c56a0d2f2074fcb31e8e2fb7e8c75bd5ba9caf37251927c73fb3e9232',
   cobot_site: 'https://www.cobot.me'
+
+ENV['SECRET_TOKEN'] = '123' * 10
