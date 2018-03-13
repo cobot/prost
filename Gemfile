@@ -1,9 +1,11 @@
 source 'http://rubygems.org'
 
-gem 'rails'
-gem 'pg'
+ruby '2.3.6'
+
+gem 'rails', '~> 3.2.22.5'
+gem 'pg', '~> 0.21.0'
 gem 'omniauth'
-gem 'omniauth-oauth2'
+gem 'omniauth-oauth2', '~>1.1.2'
 gem 'simple_form'
 gem 'inherited_resources'
 
@@ -29,4 +31,5 @@ group :test do
   gem 'capybara'
   gem 'webmock'
   gem 'launchy'
+  gem 'test-unit', '~> 3.0'
 end

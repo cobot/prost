@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SessionsController, '#new' do
+describe SessionsController, '#new', type: :controller do
   it 'redirects to spaces if logged in already' do
     log_in
 
@@ -10,14 +10,14 @@ describe SessionsController, '#new' do
   end
 end
 
-describe SessionsController, '#create' do
+describe SessionsController, '#create', type: :controller do
   before(:each) do
     User.stub(:find_by_email)
-    User.stub(:create) {stub.as_null_object}
-    User.stub(:find_by_id) {stub(:user).as_null_object}
-    Space.stub(:create) {stub(name: 'co-up').as_null_object}
+    User.stub(:create) { double.as_null_object }
+    User.stub(:find_by_id) { double(:user).as_null_object }
+    Space.stub(:create) { double(:space, name: 'co-up').as_null_object }
     Space.stub(:find_by_url)
-    @access_token = stub(:access_token, get: stub(:response, body: '{}')).as_null_object
+    @access_token = double(:access_token, get: double(:response, body: '{}')).as_null_object
     OAuth2::AccessToken.stub(:new) {@access_token}
   end
 
@@ -57,11 +57,11 @@ describe SessionsController, '#create' do
   end
 
   it 'creates memberships' do
-    User.stub(:find_by_email) {stub(:user, id: 'user-1')}
+    User.stub(:find_by_email) { double(:user, id: 'user-1') }
     @access_token.stub(:get).with("http://cobot.me/memberships/123") {
-      stub(:response, body: {'id' => '654', 'address' => {'name' => 'joe'}}.to_json)
+      double(:response, body: {'id' => '654', 'address' => {'name' => 'joe'}}.to_json)
     }
-    space = stub(:space, memberships: stub(:members, find_by_cobot_member_id: nil), name: 'co-up')
+    space = double(:space, memberships: double(:members, find_by_cobot_member_id: nil), name: 'co-up')
     Space.stub(:create) {space}
 
     space.memberships.should_receive(:create).with(name: 'joe', cobot_member_id: '654',
@@ -72,11 +72,11 @@ describe SessionsController, '#create' do
 
   it 'does not create members that already exist' do
     @access_token.stub(:get).with("http://cobot.me/memberships/123") {
-      stub(:response, body: {'id' => '654', 'address' => {'name' => 'joe'}}.to_json)
+      double(:response, body: {'id' => '654', 'address' => {'name' => 'joe'}}.to_json)
     }
-    space = stub(:space, memberships: stub(:memberships), name: 'co-up')
-    space.memberships.stub(:find_by_cobot_member_id).with('654') {stub(:member)}
-    Space.stub(:create) {space}
+    space = double(:space, memberships: double(:memberships), name: 'co-up')
+    space.memberships.stub(:find_by_cobot_member_id).with('654') { double(:member) }
+    Space.stub(:create) { space }
 
     space.memberships.should_not_receive(:create)
 
@@ -84,7 +84,7 @@ describe SessionsController, '#create' do
   end
 
   it 'does not create spaces that already exist' do
-    Space.stub(:find_by_url).with('https://www.cobot.me/api/spaces/co-up') {stub(:space).as_null_object}
+    Space.stub(:find_by_url).with('https://www.cobot.me/api/spaces/co-up') { double(:space).as_null_object }
 
     Space.should_not_receive(:create)
 
@@ -92,7 +92,7 @@ describe SessionsController, '#create' do
   end
 
   it 'sets the user id in the session' do
-    User.stub(:find_by_email) {stub(:user, id: 1).as_null_object}
+    User.stub(:find_by_email) { double(:user, id: 1).as_null_object }
 
     get :create, provider: 'cobot'
 
